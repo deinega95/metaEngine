@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MetaEngine</string>
+    <string name="ok">OK</string>
+    <string name="error">Ошибка</string>
+    <string name="network_error">Ошибка сети</string>
+    <string name="downloading">Загрузка ...</string>
+</resources>
