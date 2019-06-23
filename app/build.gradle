@@ -62,6 +62,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:17.0.0'
     implementation 'com.google.maps.android:android-maps-utils:0.4'
 
+
     //implementation 'commons-io:commons-io:2.6'
     implementation 'commons-codec:commons-codec:1.11'
 
@@ -69,4 +70,6 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
+
+    implementation 'com.google.android.gms:play-services-nearby:17.0.0'
 }
