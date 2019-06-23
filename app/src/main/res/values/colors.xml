@@ -5,4 +5,7 @@
     <color name="colorAccent">#682978</color>
     <color name="main_text_dark">#000000</color>
     <color name="main_background">#ffffff</color>
+    <color name="fire">#55ff7700</color>
+    <color name="myPath">#5500ff00</color>
+    <color name="unzone">#55ff0000</color>
 </resources>

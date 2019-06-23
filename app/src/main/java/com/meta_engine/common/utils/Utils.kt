@@ -2,6 +2,7 @@ package com.meta_engine.common.utils
 
 import android.app.Activity
 import android.content.Context
+import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.os.Handler
@@ -9,8 +10,11 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import com.meta_engine.R
+import com.meta_engine.model.MarkerType
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -61,5 +65,21 @@ object Utils {
         DrawableCompat.setTintMode(icon, PorterDuff.Mode.SRC_IN)
         return icon
     }
+
+    fun getNewID(): String = UUID.randomUUID().toString()
+
+    @DrawableRes
+    fun getMarkerIcon(type: MarkerType): Int = when (type) {
+        MarkerType.FIRE -> R.drawable.ic_me
+       // else -> R.mipmap.ic_launcher
+    }
+
+
+    fun getMarkerColor(context: Context, type: MarkerType): Int = when(type) {
+        MarkerType.FIRE -> ContextCompat.getColor(context, R.color.fire)//Color.argb(100, 100,100,100)
+    }
+
+
+
 
 }

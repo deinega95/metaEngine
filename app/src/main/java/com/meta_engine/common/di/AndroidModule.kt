@@ -10,6 +10,7 @@ import com.meta_engine.common.network.Api.Companion.BASE_URL
 import com.meta_engine.common.network.MainInterceptor
 import com.meta_engine.common.storage.PrefsManager
 import com.meta_engine.common.utils.MyLog
+import com.meta_engine.services.GeoPositionService
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -75,6 +76,11 @@ class AndroidModule(private val application: Application) {
     @Provides
     internal fun provideContentResolver(): ContentResolver {
         return application.contentResolver
+    }
+
+    @Provides
+    internal fun provideGeoService(): GeoPositionService {
+        return GeoPositionService(application.applicationContext)
     }
 
 }
