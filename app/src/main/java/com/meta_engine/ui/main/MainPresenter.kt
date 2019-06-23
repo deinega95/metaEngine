@@ -43,8 +43,8 @@ class MainPresenter @Inject constructor() : BasePresenter<IMainFragment>() {
     private fun getOther() =launch{
         while (true){
             delay(LOCATION_UPDATES_INTERVAL)
-            lastLat-= Random.nextDouble(0.000001, 0.0001)
-            lastLng+= Random.nextDouble(0.000001, 0.0001)
+            lastLat-= Random.nextDouble(0.000001, 0.00005)
+            lastLng+= Random.nextDouble(0.000001, 0.00005)
             view?.showOther(LatLng(lastLat,lastLng))
         }
     }

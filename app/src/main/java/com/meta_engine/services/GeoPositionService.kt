@@ -3,6 +3,7 @@ package com.meta_engine.services
 import android.annotation.SuppressLint
 import android.content.Context
 import android.location.Location
+import android.widget.Toast
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
@@ -10,7 +11,7 @@ import com.google.android.gms.location.LocationServices
 import com.meta_engine.common.utils.MyLog
 
 const val LOCATION_UPDATES_INTERVAL = 1000 * 3L
-const val ACCURACY = 2000
+const val ACCURACY = 20
 const val PATH_WIDTH = 20
 
 class GeoPositionService(context: Context) {
@@ -21,6 +22,9 @@ class GeoPositionService(context: Context) {
             override fun onLocationResult(locationResult: LocationResult) {
                 MyLog.show("location received " + locationResult.lastLocation.toString())
                 if (locationResult.lastLocation.accuracy <= ACCURACY) subscriber?.invoke(locationResult.lastLocation)
+                else {
+                    Toast.makeText(context, "Выйдите на улицу!", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
