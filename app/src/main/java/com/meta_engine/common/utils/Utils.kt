@@ -70,13 +70,16 @@ object Utils {
 
     @DrawableRes
     fun getMarkerIcon(type: MarkerType): Int = when (type) {
-        MarkerType.FIRE -> R.drawable.ic_me
+        MarkerType.FIRE -> R.mipmap.ic_fire
+        MarkerType.WATER -> R.mipmap.ic_water
+
        // else -> R.mipmap.ic_launcher
     }
 
 
     fun getMarkerColor(context: Context, type: MarkerType): Int = when(type) {
         MarkerType.FIRE -> ContextCompat.getColor(context, R.color.fire)//Color.argb(100, 100,100,100)
+        MarkerType.WATER ->ContextCompat.getColor(context, R.color.water)
     }
 
 

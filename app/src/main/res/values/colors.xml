@@ -6,6 +6,8 @@
     <color name="main_text_dark">#000000</color>
     <color name="main_background">#ffffff</color>
     <color name="fire">#55ff7700</color>
-    <color name="myPath">#5500ff00</color>
+    <color name="myPath">#2200ff00</color>
     <color name="unzone">#55ff0000</color>
+    <color name="water">#550077ff</color>
+    <color name="otherPath">#22ffff00</color>
 </resources>

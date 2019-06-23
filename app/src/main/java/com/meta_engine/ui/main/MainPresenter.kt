@@ -11,8 +11,11 @@ import com.meta_engine.model.HumanType
 import com.meta_engine.model.SearcArea
 import com.meta_engine.repositories.MarkersRepository
 import com.meta_engine.services.GeoPositionService
+import com.meta_engine.services.LOCATION_UPDATES_INTERVAL
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.random.Random
 
 
 @MainScope
@@ -23,10 +26,23 @@ class MainPresenter @Inject constructor() : BasePresenter<IMainFragment>() {
     lateinit var geoService: GeoPositionService
     var me = Human(Utils.getNewID(), HumanType.RESCUER, ArrayList<Coordinates>())
 
+    var lastLat = 45.021422
+    var lastLng = 39.030435
+
     override fun viewAttached() {
         getData()
         getGeoPosition()
         getSearchArea()
+        getOther()
+    }
+
+    private fun getOther() =launch{
+        while (true){
+            delay(LOCATION_UPDATES_INTERVAL)
+            lastLat-= Random.nextDouble(0.000001, 0.0001)
+            lastLng+= Random.nextDouble(0.000001, 0.0001)
+            view?.showOther(LatLng(lastLat,lastLng))
+        }
     }
 
     private fun getSearchArea() {

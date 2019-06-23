@@ -14,7 +14,7 @@ class MarkersRepository @Inject constructor() {
 
 
     suspend fun getData() = withContext(Dispatchers.IO) {
-        if (data == null) data = arrayListOf(Marker(Utils.getNewID(), 44.988744, 39.113381, MarkerType.FIRE, 100 ))
+        if (data == null) data = arrayListOf(Marker(Utils.getNewID(), 45.020422,39.032635, MarkerType.FIRE, 80 ),Marker(Utils.getNewID(), 45.021422,39.031635, MarkerType.WATER, 40 ))
 
         data!!
     }

@@ -37,6 +37,9 @@ class MainFragment : BaseFragment(), IMainFragment {
     var myMarker: com.google.android.gms.maps.model.Marker? = null
     var myPath: Polyline? = null
 
+    var otherMarker: com.google.android.gms.maps.model.Marker? = null
+    var otherPath: Polyline? = null
+
 
     var fragmentView: View? = null
 
@@ -128,7 +131,7 @@ class MainFragment : BaseFragment(), IMainFragment {
 
         if (myPath == null) {
             myPath = addPath(arrayListOf(latLng), ContextCompat.getColor(context!!, R.color.myPath))
-        }else{
+        } else {
             val path = myPath!!.points
             path.add(latLng)
             myPath!!.points = path
@@ -165,6 +168,39 @@ class MainFragment : BaseFragment(), IMainFragment {
             )
         } else {
             presenter.permissionReceived()
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 1 && ContextCompat.checkSelfPermission(
+                activity!!,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            presenter.permissionReceived()
+        }
+    }
+
+    override fun showOther(latLng: LatLng) {
+        if (otherMarker == null) {
+
+            otherMarker = addMarker(
+                latLng
+                ,
+                BitmapDescriptorFactory.fromResource(R.drawable.ic_other)
+            )
+
+        } else {
+            otherMarker?.position = latLng
+        }
+
+        if (otherPath == null) {
+            otherPath = addPath(arrayListOf(latLng), ContextCompat.getColor(context!!, R.color.otherPath))
+        } else {
+            val path = otherPath!!.points
+            path.add(latLng)
+            otherPath!!.points = path
         }
     }
 }

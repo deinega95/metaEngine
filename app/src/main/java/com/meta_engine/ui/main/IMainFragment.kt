@@ -11,4 +11,5 @@ interface IMainFragment {
     fun checkGeoPermission()
     fun showMyPosition(latLng: LatLng)
     fun showSearchArea(searcArea: SearcArea)
+    fun showOther(latLng: LatLng)
 }
