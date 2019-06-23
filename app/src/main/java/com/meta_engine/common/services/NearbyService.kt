@@ -1,6 +1,7 @@
 package com.meta_engine.common.services
 
-import android.util.Log
+import android.content.Context
+import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.connection.*
 import com.google.gson.Gson
 import com.meta_engine.CodenameGenerator
@@ -9,17 +10,22 @@ import com.meta_engine.common.utils.MyLog
 import java.nio.charset.StandardCharsets
 import javax.inject.Inject
 
-class NearbyService(val connectionsClient: ConnectionsClient, val packageName: String) {
+class NearbyService(val appContext: Context) {
     @Inject
     lateinit var coordinator: Coordinator
     @Inject
     lateinit var gson: Gson
 
+    private lateinit var connectionsClient : ConnectionsClient
+    private lateinit var packageName : String
     private val codeName = CodenameGenerator.generate()
     private var opponentEndpointId = mutableListOf<String>()
     private val STRATEGY = Strategy.P2P_CLUSTER
 
-    init {
+    fun connect() {
+        connectionsClient = Nearby.getConnectionsClient(appContext)
+        packageName = appContext.packageName
+
         startAdvertising()
         startDiscovery()
     }
@@ -27,7 +33,7 @@ class NearbyService(val connectionsClient: ConnectionsClient, val packageName: S
 
     val payloadCallback = object : PayloadCallback() {
         override fun onPayloadReceived(endpointId: String, payload: Payload) {
-            Log.e("!!!received mes=", String(payload.asBytes()!!, StandardCharsets.UTF_8))
+            MyLog.show("!! !!received mes= " + String(payload.asBytes()!!, StandardCharsets.UTF_8))
         }
 
         override fun onPayloadTransferUpdate(endpointId: String, update: PayloadTransferUpdate) {}
@@ -35,7 +41,7 @@ class NearbyService(val connectionsClient: ConnectionsClient, val packageName: S
 
     private val endpointDiscoveryCallback = object : EndpointDiscoveryCallback() {
         override fun onEndpointFound(endpointId: String, info: DiscoveredEndpointInfo) {
-            Log.e("!!!onEndpointFound", "codeName =$codeName//endpointId=$endpointId")
+            MyLog.show("!!!onEndpointFound codeName =$codeName//endpointId=$endpointId")
             connectionsClient.requestConnection(codeName, endpointId, connectionLifecycleCallback)
         }
 
@@ -44,13 +50,13 @@ class NearbyService(val connectionsClient: ConnectionsClient, val packageName: S
 
     private val connectionLifecycleCallback = object : ConnectionLifecycleCallback() {
         override fun onConnectionInitiated(endpointId: String, connectionInfo: ConnectionInfo) {
-            Log.e("!!!onConnectionInitiat", "acceptConnection endpointId =$endpointId")
+            MyLog.show("!! onConnectionInitiat acceptConnection endpointId =$endpointId")
             connectionsClient.acceptConnection(endpointId, payloadCallback)
         }
 
         override fun onConnectionResult(endpointId: String, result: ConnectionResolution) {
-            Log.e("!!!onConnectionResult", "endpointId =$endpointId")
-            Log.e("!!!onConnectionResult", "result.getStatus().isSuccess() =" + result.status.isSuccess)
+            MyLog.show("!! !onConnectionResult endpointId =$endpointId")
+            MyLog.show("!! !!onConnectionResult result.getStatus().isSuccess() =" + result.status.isSuccess)
             if (result.status.isSuccess) {
                 MyLog.show("!!! onConnectionResult: connection successful")
                 opponentEndpointId.add(endpointId)
@@ -79,19 +85,30 @@ class NearbyService(val connectionsClient: ConnectionsClient, val packageName: S
 
     private fun startDiscovery() {
         connectionsClient.startDiscovery(
-            codeName
-            , endpointDiscoveryCallback,
+            codeName,
+            endpointDiscoveryCallback,
             DiscoveryOptions.Builder().setStrategy(STRATEGY).build()
-        )
-        Log.e("!!!startDiscovery", "package =$packageName")
+        ).addOnSuccessListener {
+            MyLog.show("!! discovery successListener")
+        }.addOnFailureListener {
+            MyLog.show("!! discovery failure ${it.localizedMessage} //${it.printStackTrace()}")
+        }
+        MyLog.show("!! !!startDiscovery package =$packageName")
     }
 
     private fun startAdvertising() {
         connectionsClient.startAdvertising(
             codeName, packageName, connectionLifecycleCallback,
             AdvertisingOptions.Builder().setStrategy(STRATEGY).build()
-        )
-        Log.e("!!!startAdvertising", "nickName =$codeName")
+        ).addOnSuccessListener {
+            MyLog.show("!! startAdvertising successListener")
+        }.addOnFailureListener {
+            MyLog.show("!! startAdvertising failure ${it.localizedMessage} //${it.printStackTrace()}")
+        }
+        MyLog.show("!! !!!startAdvertising nickName =$codeName")
     }
 
+    fun stopAllEndpoints() {
+        connectionsClient.stopAllEndpoints()
+    }
 }

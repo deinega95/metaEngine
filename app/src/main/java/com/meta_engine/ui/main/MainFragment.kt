@@ -171,6 +171,7 @@ class MainFragment : BaseFragment(), IMainFragment {
         }
     }
 
+
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 1 && ContextCompat.checkSelfPermission(
@@ -203,4 +204,5 @@ class MainFragment : BaseFragment(), IMainFragment {
             otherPath!!.points = path
         }
     }
+
 }
