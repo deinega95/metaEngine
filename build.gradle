@@ -19,7 +19,11 @@ allprojects {
     repositories {
         google()
         jcenter()
-        
+
+        maven{
+            url 'http://p2pkit.io/maven2'
+        }
+
     }
 }
 

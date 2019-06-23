@@ -4,7 +4,7 @@ import android.util.Log
 import com.meta_engine.BuildConfig
 
 object MyLog {
-    private val TAG = "callback plus"
+    private val TAG = "meta engine"
 
     fun show(s: String?) {
         show(s, TAG)
