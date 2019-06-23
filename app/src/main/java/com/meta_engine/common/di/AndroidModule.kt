@@ -3,11 +3,13 @@ package com.meta_engine.common.di
 import android.app.Application
 import android.content.ContentResolver
 import android.content.Context
+import com.google.android.gms.nearby.Nearby
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.meta_engine.common.network.Api
 import com.meta_engine.common.network.Api.Companion.BASE_URL
 import com.meta_engine.common.network.MainInterceptor
+import com.meta_engine.common.services.NearbyService
 import com.meta_engine.common.storage.PrefsManager
 import com.meta_engine.common.utils.MyLog
 import dagger.Module
@@ -75,6 +77,15 @@ class AndroidModule(private val application: Application) {
     @Provides
     internal fun provideContentResolver(): ContentResolver {
         return application.contentResolver
+    }
+
+    @Provides
+    @Singleton
+    internal fun provideNearby(): NearbyService {
+        return NearbyService(
+            Nearby.getConnectionsClient(application.applicationContext),
+            application.applicationContext.packageName
+        )
     }
 
 }
