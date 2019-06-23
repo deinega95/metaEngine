@@ -3,6 +3,7 @@ package com.meta_engine.ui.main
 import com.google.android.gms.maps.model.LatLng
 import com.meta_engine.base.BasePresenter
 import com.meta_engine.common.di.MainScope
+import com.meta_engine.common.services.NearbyService
 import com.meta_engine.common.utils.MyLog
 import com.meta_engine.common.utils.Utils
 import com.meta_engine.model.Coordinates
@@ -21,6 +22,9 @@ class MainPresenter @Inject constructor() : BasePresenter<IMainFragment>() {
     lateinit var markersRepository: MarkersRepository
     @Inject
     lateinit var geoService: GeoPositionService
+    @Inject
+    lateinit var nearbyService: NearbyService
+
     var me = Human(Utils.getNewID(), HumanType.RESCUER, ArrayList<Coordinates>())
 
     override fun viewAttached() {
@@ -44,6 +48,7 @@ class MainPresenter @Inject constructor() : BasePresenter<IMainFragment>() {
     }
 
     override fun viewDettached() {
+        nearbyService.stopAllEndpoints()
         geoService.unsubscribe()
     }
 
@@ -53,6 +58,8 @@ class MainPresenter @Inject constructor() : BasePresenter<IMainFragment>() {
             view?.showMe(it)
             MyLog.show("subscribe result")
         }
+
+        nearbyService.connect()
     }
 
     fun onMyPositionClick() {

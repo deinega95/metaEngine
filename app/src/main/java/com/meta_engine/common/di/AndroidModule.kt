@@ -88,10 +88,7 @@ class AndroidModule(private val application: Application) {
     @Provides
     @Singleton
     internal fun provideNearby(): NearbyService {
-        return NearbyService(
-            Nearby.getConnectionsClient(application.applicationContext),
-            application.applicationContext.packageName
-        )
+        return NearbyService(application.applicationContext)
 
     }
 

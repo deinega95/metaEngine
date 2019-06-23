@@ -167,4 +167,5 @@ class MainFragment : BaseFragment(), IMainFragment {
             presenter.permissionReceived()
         }
     }
+
 }
